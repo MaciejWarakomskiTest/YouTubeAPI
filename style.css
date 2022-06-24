@@ -1,0 +1,40 @@
+body
+{
+    background-color: #AAF;
+}
+
+.title
+{
+    font-family: 'Courier New';
+    font-size: 20pt;
+    color: blue;
+    font-weight: bold;
+}
+
+.lista
+{
+    font-family: 'Verdana';
+    font-size: 12pt;
+    color: black;
+}
+
+a.button {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+
+    text-decoration: none;
+    color: initial;
+}
+
+.cen
+{
+    text-align: center;
+}
+
+.zaloguj
+{
+    font-family: 'Verdana';
+    font-size: 20pt;
+    color: black;
+}
