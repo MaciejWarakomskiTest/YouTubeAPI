@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,14 +9,12 @@
       
 <?php
 
-if(empty($_POST['credential']))
+if(empty($_POST['credential']) && empty($_SESSION['access_token']))
     header("Location: login.php");
 
-echo 'POST: <pre>';
-print_r($_POST);
-
-/*$test = file_get_contents("https://youtube.googleapis.com/youtube/v3/playlists?part=snippet%2CcontentDetails&maxResults=25&mine=true&key=AIzaSyAXiFwZ8gH9uE7LDv2hPkroBPzl5R4CGMU&access_token=oauth2-token");
-echo $test;*/
+$test = json_decode(file_get_contents("https://youtube.googleapis.com/youtube/v3/playlists?part=snippet%2CcontentDetails&maxResults=25&mine=true&key=AIzaSyAXiFwZ8gH9uE7LDv2hPkroBPzl5R4CGMU&access_token=".$_SESSION['access_token']));
+echo "lista: <pre>";
+print_r($test);
 
 ?>
 

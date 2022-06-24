@@ -1,4 +1,5 @@
 <?php
+session_start();
 header('Content-Type: application/json');
 
 $url = "https://oauth2.googleapis.com/token";
@@ -20,6 +21,13 @@ curl_setopt($ch,CURLOPT_URL, $url);
 curl_setopt($ch,CURLOPT_POST, true);
 curl_setopt($ch,CURLOPT_POSTFIELDS, $fields_string);
 curl_setopt($ch,CURLOPT_RETURNTRANSFER, true);
-$result = curl_exec($ch);
-echo $result;
+$json = curl_exec($ch);
+
+if(!empty($json))
+{
+    $result= json_decode($json);
+    $_SESSION['access_token'] = $result->access_token;
+    $_SESSION['id_token'] = $result->id_token;
+    header('Location: index.php');
+}
 ?>
