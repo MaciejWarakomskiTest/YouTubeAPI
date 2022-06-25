@@ -1,5 +1,6 @@
 <?php
 session_start();
+require_once('config.php');
 header('Content-Type: application/json');
 
 $url = "https://oauth2.googleapis.com/token";
@@ -7,8 +8,8 @@ $url = "https://oauth2.googleapis.com/token";
 if(!empty($_GET['code'])) $code = $_GET['code']; else $code = "";
 
 $fields = [
-    'client_id' => '885218019365-77rti44e4g0d7us6dcih9vbf3u8p497d.apps.googleusercontent.com',
-    'client_secret' => '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',
+    'client_id' => $config['CLIENT_ID'],
+    'client_secret' => $config['CLIENT_SECRET'],
     'grant_type' => 'authorization_code',
     'code' => $code,
     'redirect_uri' => 'http://localhost/YouTubeAPI/auth.php'
@@ -26,8 +27,19 @@ $json = curl_exec($ch);
 if(!empty($json))
 {
     $result= json_decode($json);
-    $_SESSION['access_token'] = $result->access_token;
-    $_SESSION['id_token'] = $result->id_token;
+    print_r($result);
+    if(!empty($result->error) && !empty($result->error_description))
+    {
+        $_SESSION['error'] = 'Invalid CLIENT_SECRET. Check config.php.';
+    }
+    else
+    {
+        if(!empty($_SESSION['error']))
+            unset($_SESSION['error']);
+        
+        $_SESSION['access_token'] = $result->access_token;
+        $_SESSION['id_token'] = $result->id_token;
+    }
     header('Location: index.php');
 }
 ?>
